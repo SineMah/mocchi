@@ -4,5 +4,6 @@ storage
 var
 .idea
 .env
+composer.lock
 
 **/.DS_Store
