@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 $loader = require __DIR__.'/../vendor/autoload.php';
 
-define('APP_PATH', implode(DIRECTORY_SEPARATOR, [__DIR__, '..']));
+define('APP_PATH', realpath(implode(DIRECTORY_SEPARATOR, [__DIR__, '..'])));
 
 // auto-load annotations
 AnnotationRegistry::registerLoader([$loader, 'loadClass']);
