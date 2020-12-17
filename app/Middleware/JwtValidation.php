@@ -17,7 +17,11 @@ class JwtValidation extends Auth implements middlewareinterface {
         $jwt = $this->request->cookies->get(env('SESSION_COOKIE'));
 
         try {
-            $decoded = JWT::decode($jwt, env('JWT_SECRET'), ['HS256']);
+            $decoded = JWT::decode(
+                $jwt,
+                env('JWT_SECRET'),
+                [env('JWT_ALGORITHM', 'HS256')]
+            );
 
             $isValid = in_array($decoded->data->id, $users);
         }catch(\Exception $e) {

@@ -51,7 +51,11 @@ class LoginController extends AbstractController
                 'id' => $id
             ]
         ];
-        $token = JWT::encode($token, env('JWT_SECRET'));
+        $token = JWT::encode(
+            $token,
+            env('JWT_SECRET'),
+            env('JWT_ALGORITHM', 'HS256')
+        );
         $cookie = $this->getCookie($request, $token, (new \DateTime('now'))->modify('+1 day'));
 
         $response = new JsonResponse([
