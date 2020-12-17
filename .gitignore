@@ -1,0 +1,8 @@
+node_modules
+vendor
+storage
+var
+.idea
+.env
+
+**/.DS_Store

@@ -1,0 +1,29 @@
+routes:
+  - path: /
+    name: index
+    method: index
+    controller: Login
+
+  - path: /logout
+    name: logout
+    method: logout
+    controller: Login
+
+  - path: /login
+    name: login
+    method: login
+    controller: Login
+
+  - path: /dashboard
+    name: dashboard_index
+    method: index
+    controller: Dashboard
+    middleware:
+      - JwtValidation
+
+  - path: /jwt/{id}
+    name: jwt_test
+    method: jwt
+    controller: Login
+    middleware:
+      - Auth
