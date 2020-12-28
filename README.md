@@ -42,6 +42,18 @@ a2ensite mocchi.conf
 systemctl reload apache2
 ```
 
+## Commands
+Create a command class in `app/Command`.
+### register method
+Register command name, version and cli arguments.
+### execute method
+Your pink fluffy unicorns are dancing here.
+### DefaultCommand
+Have a look at the example command `DefaultCommand`.
+```bash
+./cli --command=default --foo=bar
+``` 
+
 ## Keep in mind
 * Twig templating
 * no Db adapter - use whatever you want and need
