@@ -1,19 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-use App\Kernel;
 use Mocchi\Console\Cli;
-//use Symfony\Component\Console\Application;
+use Mocchi\Console\Input;
 use App\Container;
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\ErrorHandler\Debug;
-use Symfony\Component\Console\Input\InputDefinition;
 
-//define('MOCCHI_START', microtime(true));
+define('MOCCHI_START', microtime(true));
 define('APP_PATH', realpath(implode(DIRECTORY_SEPARATOR, [__DIR__])));
 
 $loader = require __DIR__.'/vendor/autoload.php';
@@ -27,8 +20,10 @@ set_time_limit(0);
 
 $container = new Container();
 
-$input = new \Mocchi\Console\Input();
+$input = new Input();
 
 $input->setArgs($argv);
 
 $cli = new Cli($input);
+
+$cli->terminate();
