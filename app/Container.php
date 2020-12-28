@@ -2,13 +2,16 @@
 
 namespace App;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Container as SymfonyContainer;
 use Symfony\Component\Yaml\Yaml;
 
 require_once APP_PATH . DIRECTORY_SEPARATOR . 'src/Core/env.php';
 
 class Container {
 
-    public function config($name) {
+    public function config($name): Array
+    {
         $path = implode(DIRECTORY_SEPARATOR, [APP_PATH, 'config', $name . '.yaml']);
         $loaded = Yaml::parse(file_get_contents($path));
         $config = [];
