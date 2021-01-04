@@ -2,6 +2,7 @@
 
 namespace Mocchi\Console;
 
+use App\Container;
 use mysql_xdevapi\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -14,9 +15,11 @@ class Cli {
     protected string $commandClass;
     protected Command $command;
     protected int $result = 0;
+    protected Container $container;
 
-    public function __construct(Input $input)
+    public function __construct(Input $input, Container $container)
     {
+        $this->container = $container;
         $this->input = $input;
         $this->output = new ConsoleOutput();
 
@@ -45,6 +48,7 @@ class Cli {
         $this->command->setCliInput($this->input);
 
         $this->command->register($this->commandClass);
+        $this->command->setContainer($this->container);
         $this->result = $this->command->execute($this->input, $this->output);
     }
 }

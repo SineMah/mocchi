@@ -2,6 +2,7 @@
 
 namespace Mocchi\Console;
 
+use App\Container;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,6 +18,7 @@ abstract class Command {
     protected string $version;
     protected string $description;
     protected array $args;
+    protected Container $container;
 
     /**
      * @var Input|null
@@ -64,5 +66,10 @@ abstract class Command {
         foreach ($this->args as $name => $arg) {
             $this->args[$name]->value = $this->input->getArg($name);
         }
+    }
+
+    public function setContainer(Container $container): void
+    {
+        $this->container = $container;
     }
 }

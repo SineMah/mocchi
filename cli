@@ -24,6 +24,6 @@ $input = new Input();
 
 $input->setArgs($argv);
 
-$cli = new Cli($input);
+$cli = new Cli($input, $container);
 
 $cli->terminate();

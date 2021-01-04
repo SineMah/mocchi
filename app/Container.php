@@ -10,15 +10,24 @@ require_once APP_PATH . DIRECTORY_SEPARATOR . 'src/Core/env.php';
 
 class Container {
 
+    public function configJson(): array
+    {
+
+    }
+
     public function config($name): Array
     {
         $path = implode(DIRECTORY_SEPARATOR, [APP_PATH, 'config', $name . '.yaml']);
-        $loaded = Yaml::parse(file_get_contents($path));
-        $config = [];
+//        $loaded = Yaml::parse(file_get_contents($path));
+        $loaded = Yaml::parseFile($path);
+//        $config = [];
 
         if(isset($loaded[$name])) {
 
             $config = $loaded[$name];
+        }else {
+
+            $config = $loaded;
         }
 
         return $config;
@@ -31,5 +40,14 @@ class Container {
         $middle = new Middleware();
 
         $middle->handleMiddleware($config);
+    }
+
+    public function model(string $name): object
+    {
+        $className = 'App\Model\\' . ucfirst($name);
+        $instance = new $className();
+        $instance->boot($this);
+
+        return $instance;
     }
 }
