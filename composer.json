@@ -12,7 +12,8 @@
         "doctrine/annotations": "^1.11",
         "vlucas/phpdotenv": "^5.2",
         "firebase/php-jwt": "^5.2",
-        "symfony/console": "^5.2"
+        "symfony/console": "^5.2",
+        "guzzlehttp/guzzle": "^7.2"
     },
     "autoload": {
         "psr-4": {
