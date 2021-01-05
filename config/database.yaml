@@ -1,0 +1,4 @@
+database:
+    pull: 'pull'
+    push: 'dyn'
+    local: 'local'

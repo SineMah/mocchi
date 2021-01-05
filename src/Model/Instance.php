@@ -11,13 +11,13 @@ class Instance {
 
     protected string $db = '';
     protected string $instance = '';
-    protected $statement = null;
+    protected \PDOStatement $statement;
 
     public function boot(Container $container) {
 
-        if(isset($container->config('mocchi')['framework']['database'][$this->db])) {
+        if(isset($container->config('database')[$this->db])) {
 
-            $this->instance = $container->config('mocchi')['framework']['database'][$this->db];
+            $this->instance = $container->config('database')[$this->db];
         }else {
 
             throw new \Exception('no config available');
@@ -29,7 +29,21 @@ class Instance {
         return Db::get($this->instance);
     }
 
-    public function execute(string $sql, array $params=[])
+    protected function insert(string $table, array $data): bool
+    {
+        $fields = array_keys($data);
+        $sql = sprintf(
+            'INSERT INTO %s (%s) VALUES (%s);',
+            $table,
+            implode(',', $fields),
+            implode(',', array_map(function($field) {
+                return ':' . $field;
+            }, $fields)));
+
+        return (bool) $this->execute($sql, $data);
+    }
+
+    protected function execute(string $sql, array $params=[])
     {
         $this->statement = $this->getDb()->prepare($sql, [\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY]);
         $this->statement->execute($params);
@@ -37,7 +51,7 @@ class Instance {
         return $this;
     }
 
-    public function fetch($mode = Instance::DB_ALL) {
+    protected function fetch($mode = Instance::DB_ALL) {
         $res = null;
 
         switch ($mode) {
