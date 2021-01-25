@@ -5,6 +5,8 @@ namespace App;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container as SymfonyContainer;
 use Symfony\Component\Yaml\Yaml;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 require_once APP_PATH . DIRECTORY_SEPARATOR . 'src/Core/env.php';
 
@@ -44,5 +46,15 @@ class Container {
         $instance->boot($this);
 
         return $instance;
+    }
+
+    public function render(string $template, array $parameters = []): string
+    {
+        $loader = new FilesystemLoader(implode(DIRECTORY_SEPARATOR, [APP_PATH, 'templates']));
+        $twig = new Environment($loader, [
+            'cache' => false,
+        ]);
+
+        return $twig->render($template, $parameters);
     }
 }
