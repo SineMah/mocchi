@@ -12,7 +12,10 @@ routes:
   - path: /login
     name: login
     method: login
+    http_method: GET
     controller: Login
+    middleware:
+      - Http
 
   - path: /dashboard
     name: dashboard_index
@@ -27,3 +30,8 @@ routes:
     controller: Login
     middleware:
       - Auth
+
+  - path: /error/404
+    name: not_found
+    method: e404
+    controller: static
