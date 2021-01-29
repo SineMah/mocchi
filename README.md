@@ -6,7 +6,7 @@ mocchi is based on Symfony MicroKernel
 ## Installation
 
 ```bash
-git@github.com:SineMah/mocchi.git
+git clone git@github.com:SineMah/mocchi.git
 ```
 
 Rename `.env.example` to `.env`.
