@@ -11,6 +11,7 @@ class Base {
 
     protected Request $request;
     protected Response $response;
+    protected string $method = 'any';
 
     public function __construct($request, $response) {
 
@@ -21,5 +22,12 @@ class Base {
     public function next(callable $callback): void
     {
         $callback($this->request, $this->response);
+    }
+
+    public function setMethod(string $method): Base
+    {
+        $this->method = $method;
+
+        return $this;
     }
 }

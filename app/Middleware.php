@@ -20,13 +20,23 @@ class Middleware {
         $this->response = new Response();
     }
 
-    protected function callMiddleware(array $middleware, array $params): void
+    protected function callMiddleware(array $middleware, array $params, ?string $method=null): void
     {
         foreach ($middleware as $name) {
             $middlewareName = 'App\Middleware\\' . ucfirst($name);
             $instance = new $middlewareName($this->request, $this->response);
 
+            if(!$params['route_404']) {
+
+                $params['route_404'] = '/errors/404';
+            }
+
             $instance->params = $params;
+
+            if($method) {
+
+                $instance->setMethod($method);
+            }
 
             $instance->next(function($req, $resp) {
 
@@ -39,6 +49,8 @@ class Middleware {
     public function handleMiddleware(array $config): void
     {
         $middleware = [];
+        $httpMethod = [];
+        $errorRoute = null;
         $routes = new RouteCollection();
 
         foreach ($config as $route) {
@@ -51,7 +63,13 @@ class Middleware {
                 $configMiddleware = $route['middleware'];
             }
 
+            if(isset($route['name']) && $route['name'] === 'not_found') {
+
+                $errorRoute = $route['path'];
+            }
+
             $middleware[$route['name']] = $configMiddleware;
+            $httpMethod[$route['name']] = isset($route['http_method']) ? $route['http_method'] : null;
         }
 
         $context = new RequestContext();
@@ -62,9 +80,10 @@ class Middleware {
         $routeName = $attributes['_route'];
 
         $params = $attributes;
+        $params['route_404'] = $errorRoute;
 
         unset($params['_route']);
 
-        $this->callMiddleware($middleware[$routeName], $params);
+        $this->callMiddleware($middleware[$routeName], $params, $httpMethod[$routeName]);
     }
 }
