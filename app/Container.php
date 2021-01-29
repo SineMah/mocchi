@@ -12,7 +12,7 @@ require_once APP_PATH . DIRECTORY_SEPARATOR . 'src/Core/env.php';
 
 class Container {
 
-    public function config($name): Array
+    public function config($name): array
     {
         $path = implode(DIRECTORY_SEPARATOR, [APP_PATH, 'config', $name . '.yaml']);
 //        $loaded = Yaml::parse(file_get_contents($path));
